@@ -1,0 +1,21 @@
+.App {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  height: 955px;
+  width: 800px;
+  font-size: 22px;
+}
+
+.border {
+  border: black 1px solid;
+  display: grid;
+  place-items: center;
+  background-color: grey;
+  transition-duration: 400ms;
+  font-weight: 900;
+}
+
+.border:hover {
+  background-color: rgb(241, 234, 234);
+}
