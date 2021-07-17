@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
-  height: 955px;
+  height: auto;
   width: 800px;
   font-size: 22px;
 }
@@ -14,6 +14,8 @@
   background-color: grey;
   transition-duration: 400ms;
   font-weight: 900;
+  height: 198px;
+  width: 198px;
 }
 
 .border:hover {

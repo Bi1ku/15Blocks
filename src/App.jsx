@@ -10,52 +10,46 @@ class App extends React.Component {
       [4, 9, 10, 7],
       [3, 14, 13, null],
     ],
-    nullTracker: 3,
   };
 
   moveToNull = (index, index2) => {
     const blocks = this.state.blocks;
-    let nullTracker = this.state.nullTracker;
-    if (blocks[index][index2] === null) {
-      alert("You can't move this block");
-      return;
-    } else if (blocks[index].indexOf(null) - 1 === index2) {
+    if (blocks[index].indexOf(null) - 1 === index2) {
       blocks[index][index2 + 1] = blocks[index][index2];
       blocks[index][index2] = null;
     } else if (
       blocks[index].indexOf(null) + 1 === index2 &&
-      index === nullTracker
+      blocks[index].includes(null)
     ) {
       blocks[index][index2 - 1] = blocks[index][index2];
       blocks[index][index2] = null;
     } else if (
-      blocks[nullTracker].indexOf(null) ===
-        blocks[index].indexOf(blocks[index][index2]) &&
-      nullTracker - 1 === index
+      blocks[index + 1] !== undefined &&
+      blocks[index + 1].includes(null) &&
+      blocks[index + 1].indexOf(null) ===
+        blocks[index].indexOf(blocks[index][index2])
     ) {
       blocks[index + 1][index2] = blocks[index][index2];
       blocks[index][index2] = null;
-      nullTracker -= 1;
     } else if (
-      blocks[nullTracker].indexOf(null) ===
-        blocks[index].indexOf(blocks[index][index2]) &&
-      nullTracker + 1 === index
+      blocks[index - 1] !== undefined &&
+      blocks[index - 1].includes(null) &&
+      blocks[index - 1].indexOf(null) ===
+        blocks[index].indexOf(blocks[index][index2])
     ) {
       blocks[index - 1][index2] = blocks[index][index2];
       blocks[index][index2] = null;
-      nullTracker += 1;
     } else {
       alert("You can't move this block");
     }
     this.setState({
-      nullTracker,
       blocks,
     });
   };
 
   render() {
     return (
-      <div>
+      <div className="container">
         <DivBlock
           blocks={this.state.blocks}
           moveToNull={this.moveToNull}
