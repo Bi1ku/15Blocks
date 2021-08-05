@@ -1,63 +1,41 @@
 import React from "react";
 import "./App.css";
 import DivBlock from "./componets/DivBlock";
+import numList from "./constants/numList";
 
-class App extends React.Component {
-  state = {
-    blocks: [
-      [15, 2, 1, 12],
-      [8, 5, 6, 11],
-      [4, 9, 10, 7],
-      [3, 14, 13, null],
-    ],
-  };
+const App = () => {
+  const [blocks, setBlocks] = React.useState(numList);
 
-  moveToNull = (index, index2) => {
-    const blocks = this.state.blocks;
-    if (blocks[index].indexOf(null) - 1 === index2) {
-      blocks[index][index2 + 1] = blocks[index][index2];
-      blocks[index][index2] = null;
-    } else if (
-      blocks[index].indexOf(null) + 1 === index2 &&
-      blocks[index].includes(null)
-    ) {
-      blocks[index][index2 - 1] = blocks[index][index2];
-      blocks[index][index2] = null;
-    } else if (
-      blocks[index + 1] !== undefined &&
-      blocks[index + 1].includes(null) &&
-      blocks[index + 1].indexOf(null) ===
-        blocks[index].indexOf(blocks[index][index2])
-    ) {
-      blocks[index + 1][index2] = blocks[index][index2];
-      blocks[index][index2] = null;
-    } else if (
-      blocks[index - 1] !== undefined &&
-      blocks[index - 1].includes(null) &&
-      blocks[index - 1].indexOf(null) ===
-        blocks[index].indexOf(blocks[index][index2])
-    ) {
-      blocks[index - 1][index2] = blocks[index][index2];
-      blocks[index][index2] = null;
+  let up, down;
+
+  const moveToNull = (index, i2) => {
+    let right = blocks[index][i2 + 1];
+    let left = blocks[index][i2 - 1];
+    try { up = blocks[index - 1][i2]; } catch {}
+    try { down = blocks[index + 1][i2]; } catch {}
+    if (right === null) {
+      blocks[index][i2 + 1] = blocks[index][i2];
+      blocks[index][i2] = null;
+    } else if (left === null) {
+      blocks[index][i2 - 1] = blocks[index][i2];
+      blocks[index][i2] = null;
+    } else if (down === null) {
+      blocks[index + 1][i2] = blocks[index][i2];
+      blocks[index][i2] = null;
+    } else if (up === null) {
+      blocks[index - 1][i2] = blocks[index][i2];
+      blocks[index][i2] = null;
     } else {
       alert("You can't move this block");
     }
-    this.setState({
-      blocks,
-    });
+    setBlocks([...blocks]);
   };
 
-  render() {
-    return (
-      <div className="container">
-        <DivBlock
-          blocks={this.state.blocks}
-          moveToNull={this.moveToNull}
-          state={this.state}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="container">
+      <DivBlock blocks={blocks} moveToNull={moveToNull} />
+    </div>
+  );
+};
 
 export default App;
